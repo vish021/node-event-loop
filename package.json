@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/vish021/node-event-loop#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "webworker-threads": "^0.7.17"
   }
 }

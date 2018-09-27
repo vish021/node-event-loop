@@ -1,26 +1,15 @@
-const cluster = require('cluster');
+const express = require('express');
+const app = express();
+const crypto = require('crypto');
 
-// is file being executed in master mode?
-if (cluster.isMaster) {
-    // Cause index.js being executed AGAIN but in child/worker mode 
-   cluster.fork();
-} else {
-    // I'm a worker and going to act like server and do nothing else
-    const express = require('express');
-    const app = express();
-
-    function doWork(duration) {
-        const start = Date.now();
-        while (Date.now() - start < duration) {}
-    }
-
-    app.get('/', (req, res) => {
-        doWork(5000);//code in event loop not in thread or process
+app.get('/', (req, res) => {
+    crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', () => {
         res.send('Hi There');
     });
-    
-    app.listen(3000);
-}
+});
 
+app.get('/fast', (req, res) => {
+    res.send('This was fast');
+});
 
-
+app.listen(3000);
